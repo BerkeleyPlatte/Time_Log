@@ -1,0 +1,1 @@
+from .activities.list import activity_list

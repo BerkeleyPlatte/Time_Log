@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Activities</title>
+  </head>
+  <body>
+    <h1>Activities</h1>
+
+    <ol>
+      {% for activity in all_activities %}
+      <li>
+        {{ activity.name }}
+      </li>
+      {% endfor %}
+    </ol>
+  </body>
+</html>
