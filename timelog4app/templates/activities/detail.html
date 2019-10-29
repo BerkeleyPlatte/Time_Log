@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Activity</title>
+  </head>
+  <body>
+    <h1>{{ activity.name }}</h1>
+    <form action="{% url 'timelog4app:activity' activity.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="actual_method" value="DELETE" />
+      <button>Delete</button>
+    </form>
+  </body>
+</html>

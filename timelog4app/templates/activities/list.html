@@ -11,7 +11,7 @@
     <ol>
       {% for activity in all_activities %}
       <li>
-        {{ activity.name }}
+          <a href="{% url 'timelog4app:activity' activity.id %}"> {{ activity.name }} </a>
       </li>
       {% endfor %}
     </ol>
