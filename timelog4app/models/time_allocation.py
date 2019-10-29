@@ -1,5 +1,7 @@
 from django.db import models
 from .activity import Activity
+from django.urls import reverse
+
 
 
 class Time_Allocation(models.Model):
