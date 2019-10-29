@@ -1,21 +1,35 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Time Log</title>
-  </head>
-  <body>
-    <h1>Add Activity</h1>
 
-    <form action="{% url 'timelog4app:activities' %}" method="post">
-      {% csrf_token %}
-      <fieldset>
-        <label for="title">Activity: </label>
-        <input id="title" type="text" name="title" />
-      </fieldset>
+<head>
+    <meta charset="utf-8">
+    <title>Acivity</title>
+</head>
 
-      <input type="submit" value="Add It" />
+<body>
+    <h1>Activity</h1>
+
+    {% if activity.id is not None %}
+        <form action="{% url 'timelog4app:activity' activity.id %}" method="post">
+    {% else %}
+        <form action="{% url 'timelog4app:activities' %}" method="post">
+    {% endif %}
+        {% csrf_token %}
+        <fieldset>
+            <label for="title">Activity: </label>
+            <input id="title" type="text" name="title" value="{{ activity.name }}">
+        </fieldset>
+        
+
+        {% if activity.id is not None %}
+            <input type="hidden" name="actual_method" value="PUT">
+            <input type="submit" value="Update" />
+        {% else %}
+            <input type="submit" value="Create" />
+        {% endif %}
+
     </form>
-  </body>
+</body>
+
 </html>

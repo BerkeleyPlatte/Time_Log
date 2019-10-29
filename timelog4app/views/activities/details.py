@@ -36,21 +36,35 @@ def activity_details(request, activity_id):
         }
 
         return render(request, template, context)
-    
-    if request.method == 'POST':
+
+    elif request.method == 'POST':
         form_data = request.POST
 
-   
-    if (
-        "actual_method" in form_data
-        and form_data["actual_method"] == "DELETE"
-    ):
-        with sqlite3.connect(Connection.db_path) as conn:
-            db_cursor = conn.cursor()
+        if (
+            "actual_method" in form_data
+            and form_data["actual_method"] == "PUT"
+        ):
+            with sqlite3.connect(Connection.db_path) as conn:
+                db_cursor = conn.cursor()
 
-            db_cursor.execute("""
-            DELETE FROM timelog4app_activity
-            WHERE id = ?
-            """, (activity_id,))
+                db_cursor.execute("""
+                UPDATE timelog4app_activity
+                SET name = ?
+                WHERE id = ?
+                """, (form_data['title'], activity_id,))
 
-        return redirect(reverse('timelog4app:activities'))
+            return redirect(reverse('timelog4app:activities'))
+
+        if (
+            "actual_method" in form_data
+            and form_data["actual_method"] == "DELETE"
+        ):
+            with sqlite3.connect(Connection.db_path) as conn:
+                db_cursor = conn.cursor()
+
+                db_cursor.execute("""
+                DELETE FROM timelog4app_activity
+                WHERE id = ?
+                """, (activity_id,))
+
+            return redirect(reverse('timelog4app:activities'))

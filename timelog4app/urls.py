@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^register/$', register_user, name='register'),
     url(r'^activity/form$', activity_form, name='activity_form'),
     path('activities/<int:activity_id>/', activity_details, name='activity'),
+    url(r'^activities/(?P<activity_id>[0-9]+)/form$', activity_edit_form, name='activity_edit_form'),
 ]
