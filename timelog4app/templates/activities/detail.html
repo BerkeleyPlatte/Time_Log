@@ -1,20 +1,17 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Activity</title>
-  </head>
-  <body>
-    <h1>{{ activity.name }}</h1>
-    <form action="{% url 'timelog4app:activity' activity.id %}" method="POST">
-      {% csrf_token %}
-      <input type="hidden" name="actual_method" value="DELETE" />
-      <button>Delete</button>
-    </form>
-    <form action="{% url 'timelog4app:activity_edit_form' activity.id %}" method="GET">
-      {% csrf_token %}
-      <button>Edit</button>
-    </form>
-  </body>
-</html>
+{% extends 'shared/base.html' %} {% block content %}
+
+<h1>{{ activity.name }}</h1>
+<form action="{% url 'timelog4app:activity' activity.id %}" method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="actual_method" value="DELETE" />
+  <button>Delete</button>
+</form>
+<form
+  action="{% url 'timelog4app:activity_edit_form' activity.id %}"
+  method="GET"
+>
+  {% csrf_token %}
+  <button>Edit</button>
+</form>
+
+{% endblock %}

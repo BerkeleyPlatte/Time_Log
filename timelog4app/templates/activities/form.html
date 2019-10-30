@@ -1,35 +1,22 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html>
+{% extends 'shared/base.html' %} {% block content %}
+<h1>Activity</h1>
 
-<head>
-    <meta charset="utf-8">
-    <title>Acivity</title>
-</head>
-
-<body>
-    <h1>Activity</h1>
+{% if activity.id is not None %}
+<form action="{% url 'timelog4app:activity' activity.id %}" method="post">
+  {% else %}
+  <form action="{% url 'timelog4app:activities' %}" method="post">
+    {% endif %} {% csrf_token %}
+    <fieldset>
+      <label for="title">Activity: </label>
+      <input id="title" type="text" name="title" value="{{ activity.name }}" />
+    </fieldset>
 
     {% if activity.id is not None %}
-        <form action="{% url 'timelog4app:activity' activity.id %}" method="post">
+    <input type="hidden" name="actual_method" value="PUT" />
+    <input type="submit" value="Update" />
     {% else %}
-        <form action="{% url 'timelog4app:activities' %}" method="post">
+    <input type="submit" value="Create" />
     {% endif %}
-        {% csrf_token %}
-        <fieldset>
-            <label for="title">Activity: </label>
-            <input id="title" type="text" name="title" value="{{ activity.name }}">
-        </fieldset>
-        
-
-        {% if activity.id is not None %}
-            <input type="hidden" name="actual_method" value="PUT">
-            <input type="submit" value="Update" />
-        {% else %}
-            <input type="submit" value="Create" />
-        {% endif %}
-
-    </form>
-</body>
-
-</html>
+  </form>
+</form>
+{% endblock %}
