@@ -1,26 +1,31 @@
-{% extends 'shared/base.html' %} {% block content %}
+{% extends 'shared/base.html' %}
+{% block content %} 
+{% load staticfiles %} 
+{% block css %}
+<link rel="stylesheet" href="{% static 'styles/activities.css' %}" />
+{% endblock %}
+
 <h1>Activities</h1>
 
 <a href="{% url 'timelog4app:activity_form' %}">Add Activity</a>
-<div>
+<div class="activities">
   {% for activity in all_activities %}
-  <br />
-  <a href="{% url 'timelog4app:activity' activity.id %}">
-    {{ activity.name }}
-  </a>
-  <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
-    {% csrf_token %}
-    <button>Start</button>
-    <input name="activity_id" type="hidden" value="{{ activity.id }}" />
-  </form>
-  <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
-    {% csrf_token %}
-    <button>Stop</button>
-    <input name="activity_id_edited" type="hidden" value="{{ activity.id }}" />
-    <input name="actual_method" type="hidden" value="PUT" />
-    <input name="id" type="hidden" value="" />
-  </form>
-  <br />
+  <div class="activity">
+    <br />
+    <a
+      class="activity__name"
+      href="{% url 'timelog4app:activity' activity.id %}"
+    >
+      {{ activity.name }}
+    </a>
+    <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
+      {% csrf_token %}
+      <button>Start</button>
+      <input name="activity_id" type="hidden" value="{{ activity.id }}" />
+    </form>
+
+    <br />
+  </div>
 
   {% endfor %}
 </div>

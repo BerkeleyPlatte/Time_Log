@@ -23,6 +23,7 @@ def activity_list(request):
                 a.app_user_id
             from timelog4app_activity a
             where a.app_user_id = ?
+            order by a.name asc
             """, (request.user.id,))
 
             all_activities = db_cursor.fetchall()
