@@ -1,0 +1,21 @@
+{% extends 'shared/base.html' %} {% block content %}
+
+<table style="width:100%">
+  <tr>
+    <th>Activity</th>
+    <th>Start Time</th>
+    <th>Stop Time</th>
+  </tr>
+  {% for each in all_time_allocations %}
+
+  <tr>
+    <td>{{ each.name }}</td>
+    <td>{{ each.start_time }}</td>
+    <td>{{ each.stop_time }}</td>
+  </tr>
+  {% endfor %}
+  <tfoot>
+    <tr></tr>
+  </tfoot>
+</table>
+{% endblock %}
