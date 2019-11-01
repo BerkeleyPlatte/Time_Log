@@ -5,7 +5,7 @@
     <th>Activity</th>
     <th>Start Time</th>
     <th>Stop Time</th>
-    <th>Stop Button</th>
+    <th>Action</th>
   </tr>
   {% for each in all_time_allocations %}
 
@@ -15,16 +15,26 @@
     {% if each.stop_time is not None %}
     <td>{{ each.stop_time }}</td>
     {% else %}
-    <td></td>
+    <td>--</td>
     {% endif %}
 
     <td>
+      {% if each.stop_time is not None %}
+      <form action="{% url 'timelog4app:time_allocations' %}" method="post">
+        {% csrf_token %}
+
+        <button>Delete</button>
+        <input name="id_to_delete" type="hidden" value="{{ each.id }}" />
+        <input name="actual_method" type="hidden" value="DELETE" />
+      </form>
+      {% else %}
       <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
         {% csrf_token %}
         <button>Stop</button>
         <input name="activity_id_edited" type="hidden" value="{{ each.id }}" />
         <input name="actual_method" type="hidden" value="PUT" />
       </form>
+      {% endif %}
     </td>
   </tr>
   {% endfor %}

@@ -12,7 +12,7 @@ import datetime
 @login_required
 def time_allocation_list(request):
     todays_date = str(datetime.datetime.now().strftime("%x"))
-    current_time = str(datetime.datetime.now().strftime("%X"))
+    current_time = str(datetime.datetime.now().strftime('%I:%M %p'))
 
     if request.method == 'GET':
         with sqlite3.connect(Connection.db_path) as conn:
@@ -55,6 +55,18 @@ def time_allocation_list(request):
                 where id = ?
                 and date = ?
                 """, (current_time, request.POST['activity_id_edited'], todays_date))
+                
+        elif ("actual_method" in request.POST and request.POST["actual_method"] == "DELETE"):
+            
+            with sqlite3.connect(Connection.db_path) as conn:
+                db_cursor = conn.cursor()
+                destination = 'timelog4app:time_allocations'
+
+                db_cursor.execute("""
+                    DELETE FROM timelog4app_time_allocation
+                    WHERE id = ?
+                """, (request.POST['id_to_delete'],))
+
 
         else:
             with sqlite3.connect(Connection.db_path) as conn:
