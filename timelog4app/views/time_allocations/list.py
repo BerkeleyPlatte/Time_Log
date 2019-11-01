@@ -29,7 +29,8 @@ def time_allocation_list(request):
                 timelog4app_time_allocation ta,
                 auth_user au
             where
-                ta.date = ?
+                ta.stop_time is not null
+                and ta.date = ?
                 and ta.activity_id = a.id
                 and a.app_user_id = ?
             order by
@@ -43,16 +44,25 @@ def time_allocation_list(request):
         return render(request, template_name, {'all_time_allocations': all_time_allocations})
 
     elif request.method == 'POST':
-        form_data = request.POST.get('id', False)
+        if ("actual_method" in request.POST and request.POST["actual_method"] == "PUT"):
+            with sqlite3.connect(Connection.db_path) as conn:
+                db_cursor = conn.cursor()
 
-        with sqlite3.connect(Connection.db_path) as conn:
-            db_cursor = conn.cursor()
+                db_cursor.execute(""" 
+                UPDATE timelog4app_time_allocation
+                set stop_time = ?
+                where activity_id = ?
+                and date = ?
+                """, (current_time, request.POST['activity_id_edited'], todays_date))
 
-            db_cursor.execute("""
-            INSERT INTO timelog4app_time_allocation
-            (start_time, stop_time, date, activity_id)
-            values (?, null, ?, ?)
-            """,
-                              (current_time, todays_date, form_data))
+        else:
+            with sqlite3.connect(Connection.db_path) as conn:
+                db_cursor = conn.cursor()
 
-        return redirect(reverse('timelog4app:time_allocations'))
+                db_cursor.execute("""
+                INSERT INTO timelog4app_time_allocation
+                (start_time, stop_time, date, activity_id)
+                values (?, null, ?, ?)
+                """, (current_time, todays_date, request.POST['activity_id']))
+
+        return redirect(reverse('timelog4app:activities'))

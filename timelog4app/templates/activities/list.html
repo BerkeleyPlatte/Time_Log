@@ -11,11 +11,17 @@
   <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
     {% csrf_token %}
     <button>Start</button>
+    <input name="activity_id" type="hidden" value="{{ activity.id }}" />
   </form>
-  <button>Stop</button>
+  <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
+    {% csrf_token %}
+    <button>Stop</button>
+    <input name="activity_id_edited" type="hidden" value="{{ activity.id }}" />
+    <input name="actual_method" type="hidden" value="PUT" />
+    <input name="id" type="hidden" value="" />
+  </form>
   <br />
 
-  <input name="id" type="hidden" value="{{ activity.id }}" />
   {% endfor %}
 </div>
 {% endblock %}
