@@ -5,6 +5,7 @@
     <th>Activity</th>
     <th>Start Time</th>
     <th>Stop Time</th>
+    <th>Stop Button</th>
   </tr>
   {% for each in all_time_allocations %}
 
@@ -12,6 +13,18 @@
     <td>{{ each.name }}</td>
     <td>{{ each.start_time }}</td>
     <td>{{ each.stop_time }}</td>
+    <td>
+      <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
+        {% csrf_token %}
+        <button>Stop</button>
+        <input
+          name="activity_id_edited"
+          type="hidden"
+          value="{{ each.id }}"
+        />
+        <input name="actual_method" type="hidden" value="PUT" />
+      </form>
+    </td>
   </tr>
   {% endfor %}
   <tfoot>

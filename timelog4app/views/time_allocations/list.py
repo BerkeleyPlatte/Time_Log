@@ -29,8 +29,7 @@ def time_allocation_list(request):
                 timelog4app_time_allocation ta,
                 auth_user au
             where
-                ta.stop_time is not null
-                and ta.date = ?
+                ta.date = ?
                 and ta.activity_id = a.id
                 and a.app_user_id = ?
             order by
@@ -47,17 +46,19 @@ def time_allocation_list(request):
         if ("actual_method" in request.POST and request.POST["actual_method"] == "PUT"):
             with sqlite3.connect(Connection.db_path) as conn:
                 db_cursor = conn.cursor()
+                destination = 'timelog4app:activities'
 
                 db_cursor.execute(""" 
                 UPDATE timelog4app_time_allocation
                 set stop_time = ?
-                where activity_id = ?
+                where id = ?
                 and date = ?
                 """, (current_time, request.POST['activity_id_edited'], todays_date))
 
         else:
             with sqlite3.connect(Connection.db_path) as conn:
                 db_cursor = conn.cursor()
+                destination = 'timelog4app:time_allocations'
 
                 db_cursor.execute("""
                 INSERT INTO timelog4app_time_allocation
@@ -65,4 +66,4 @@ def time_allocation_list(request):
                 values (?, null, ?, ?)
                 """, (current_time, todays_date, request.POST['activity_id']))
 
-        return redirect(reverse('timelog4app:activities'))
+        return redirect(reverse(destination))
