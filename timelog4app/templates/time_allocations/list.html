@@ -12,16 +12,17 @@
   <tr>
     <td>{{ each.name }}</td>
     <td>{{ each.start_time }}</td>
+    {% if each.stop_time is not None %}
     <td>{{ each.stop_time }}</td>
+    {% else %}
+    <td></td>
+    {% endif %}
+
     <td>
       <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
         {% csrf_token %}
         <button>Stop</button>
-        <input
-          name="activity_id_edited"
-          type="hidden"
-          value="{{ each.id }}"
-        />
+        <input name="activity_id_edited" type="hidden" value="{{ each.id }}" />
         <input name="actual_method" type="hidden" value="PUT" />
       </form>
     </td>
