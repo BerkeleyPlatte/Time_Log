@@ -2,20 +2,26 @@
 <h1>Activities</h1>
 
 <a href="{% url 'timelog4app:activity_form' %}">Add Activity</a>
-<div class="d-flex flex-row">
+<div>
   {% for activity in all_activities %}
-
   <br />
-  <div class="card">
-    <div class="card-body">
-      <a href="{% url 'timelog4app:activity' activity.id %}">
-        {{ activity.name }}
-      </a>
-      <br />
-      <button>Start</button>
-      <button>Stop</button>
-    </div>
-  </div>
+  <a href="{% url 'timelog4app:activity' activity.id %}">
+    {{ activity.name }}
+  </a>
+  <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
+    {% csrf_token %}
+    <button>Start</button>
+    <input name="activity_id" type="hidden" value="{{ activity.id }}" />
+  </form>
+  <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
+    {% csrf_token %}
+    <button>Stop</button>
+    <input name="activity_id_edited" type="hidden" value="{{ activity.id }}" />
+    <input name="actual_method" type="hidden" value="PUT" />
+    <input name="id" type="hidden" value="" />
+  </form>
+  <br />
+
   {% endfor %}
 </div>
 {% endblock %}
