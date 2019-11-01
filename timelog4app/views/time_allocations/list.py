@@ -21,6 +21,7 @@ def time_allocation_list(request):
 
             db_cursor.execute("""
             select DISTINCT
+                ta.id,
                 a.name,
                 ta.start_time,
                 ta.stop_time
