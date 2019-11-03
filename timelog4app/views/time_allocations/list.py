@@ -12,7 +12,7 @@ import datetime
 @login_required
 def time_allocation_list(request):
     todays_date = str(datetime.datetime.now().strftime("%x"))
-    current_time = str(datetime.datetime.now().strftime('%I:%M %p'))
+    current_time = str(datetime.datetime.now().strftime('%p %I:%M'))
 
     if request.method == 'GET':
         with sqlite3.connect(Connection.db_path) as conn:
