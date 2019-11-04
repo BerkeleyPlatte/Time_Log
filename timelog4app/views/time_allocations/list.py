@@ -18,11 +18,6 @@ def time_allocation_list(request):
         with sqlite3.connect(Connection.db_path) as conn:
             conn.row_factory = model_factory(Time_Allocation)
             db_cursor = conn.cursor()
-            if request.GET.get("desired_date") is not "MM/DD/YY":
-                form_data = request.GET.get("desired_date")
-            else:
-                form_data = todays_date
-                
 
             db_cursor.execute("""
             select DISTINCT
@@ -40,7 +35,27 @@ def time_allocation_list(request):
                 and a.app_user_id = ?
             order by
                 ta.start_time ASC;
-            """, (form_data, request.user.id,))
+            """, (todays_date, request.user.id,))
+
+            if request.GET.get("desired_date") is not None:
+                form_data = request.GET.get("desired_date")
+                db_cursor.execute("""
+                select DISTINCT
+                    ta.id,
+                    a.name,
+                    ta.start_time,
+                    ta.stop_time
+                from
+                    timelog4app_activity a,
+                    timelog4app_time_allocation ta,
+                    auth_user au
+                where
+                    ta.date = ?
+                    and ta.activity_id = a.id
+                    and a.app_user_id = ?
+                order by
+                    ta.start_time ASC;
+                """, (form_data, request.user.id,))
 
             all_time_allocations = db_cursor.fetchall()
 
