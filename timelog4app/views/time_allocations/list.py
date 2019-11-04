@@ -18,6 +18,11 @@ def time_allocation_list(request):
         with sqlite3.connect(Connection.db_path) as conn:
             conn.row_factory = model_factory(Time_Allocation)
             db_cursor = conn.cursor()
+            if request.GET.get("desired_date") is not "MM/DD/YY":
+                form_data = request.GET.get("desired_date")
+            else:
+                form_data = todays_date
+                
 
             db_cursor.execute("""
             select DISTINCT
@@ -35,13 +40,13 @@ def time_allocation_list(request):
                 and a.app_user_id = ?
             order by
                 ta.start_time ASC;
-            """, (todays_date, request.user.id,))
+            """, (form_data, request.user.id,))
 
             all_time_allocations = db_cursor.fetchall()
 
         template_name = 'time_allocations/list.html'
 
-        return render(request, template_name, {'all_time_allocations': all_time_allocations})
+        return render(request, template_name, {'all_time_allocations': all_time_allocations}, {'todays_date': todays_date})
 
     elif request.method == 'POST':
         if ("actual_method" in request.POST and request.POST["actual_method"] == "PUT"):
@@ -55,9 +60,9 @@ def time_allocation_list(request):
                 where id = ?
                 and date = ?
                 """, (current_time, request.POST['activity_id_edited'], todays_date))
-                
+
         elif ("actual_method" in request.POST and request.POST["actual_method"] == "DELETE"):
-            
+
             with sqlite3.connect(Connection.db_path) as conn:
                 db_cursor = conn.cursor()
                 destination = 'timelog4app:time_allocations'
@@ -66,7 +71,6 @@ def time_allocation_list(request):
                     DELETE FROM timelog4app_time_allocation
                     WHERE id = ?
                 """, (request.POST['id_to_delete'],))
-
 
         else:
             with sqlite3.connect(Connection.db_path) as conn:
