@@ -1,18 +1,18 @@
+import datetime
 import sqlite3
 from django.shortcuts import render
 from timelog4app.models import Time_Allocation
-from timelog4app.models import model_factory
-from ..connection import Connection
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import render, redirect
-import datetime
+from ..connection import Connection
+from timelog4app.models import model_factory
 
 
 @login_required
 def time_allocation_list(request):
-    todays_date = str(datetime.datetime.now().strftime("%x"))
-    current_time = str(datetime.datetime.now().strftime('%p %I:%M'))
+    todays_date = datetime.datetime.now().strftime("%x")
+    current_time = datetime.datetime.now().strftime('%X')
 
     if request.method == 'GET':
         with sqlite3.connect(Connection.db_path) as conn:
