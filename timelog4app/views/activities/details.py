@@ -97,7 +97,8 @@ def activity_details(request, activity_id):
                 db_cursor = conn.cursor()
 
                 db_cursor.execute("""
-                DELETE FROM timelog4app_activity
+                update timelog4app_activity
+                set active = true
                 WHERE id = ?
                 """, (activity_id,))
 
