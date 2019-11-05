@@ -1,6 +1,7 @@
 {% extends 'shared/base.html' %} {% block content %}
 
 <h1>{{ activity.name }}</h1>
+<h3>You've performed this activity for -- hours and -- minutes</h3>
 <form action="{% url 'timelog4app:activity' activity.id %}" method="POST">
   {% csrf_token %}
   <input type="hidden" name="actual_method" value="DELETE" />

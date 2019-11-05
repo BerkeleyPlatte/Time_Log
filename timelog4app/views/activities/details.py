@@ -23,6 +23,8 @@ def get_activity(activity_id):
         """, (activity_id,))
 
         return db_cursor.fetchone()
+    
+
 
 
 @login_required
