@@ -4,6 +4,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from timelog4app.models import model_factory
 from timelog4app.models import Activity
+from timelog4app.models import Time_Allocation
+from timelog4app.modules.times_diff import times_diff
+from timelog4app.modules.to_days import to_days
 from ..connection import Connection
 
 
@@ -23,18 +26,47 @@ def get_activity(activity_id):
         """, (activity_id,))
 
         return db_cursor.fetchone()
-    
 
+
+def get_activity_allocations(activity_id):
+    with sqlite3.connect(Connection.db_path) as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        select ta.start_time, ta.stop_time
+        from timelog4app_time_allocation ta, timelog4app_activity a
+        where ta.activity_id = a.id and a.id = ?
+        """, (activity_id,))
+
+        activity_specific_allocations = []
+        dataset = db_cursor.fetchall()
+        totals_list = []
+
+        for row in dataset:
+            time_allocation = Time_Allocation()
+            time_allocation.diff_in_mins = times_diff(
+                row['start_time'], row['stop_time'])
+
+            activity_specific_allocations.append(time_allocation)
+
+        for each in activity_specific_allocations:
+            totals_list.append(each.diff_in_mins)
+
+        totals_dict = to_days(totals_list)
+
+        return totals_dict
 
 
 @login_required
 def activity_details(request, activity_id):
     if request.method == 'GET':
         activity = get_activity(activity_id)
+        totals = get_activity_allocations(activity_id)
 
         template = 'activities/detail.html'
         context = {
-            'activity': activity
+            'activity': activity,
+            'totals': totals
         }
 
         return render(request, template, context)
