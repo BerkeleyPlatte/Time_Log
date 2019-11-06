@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'accounts/', include('django.contrib.auth.urls')),
     url(r'^logout/$', logout_user, name='logout'),
+    url(r'^login/', login_user, name='login'),
     url(r'^register/$', register_user, name='register'),
     url(r'^activities$', activity_list, name='activities'),
     url(r'^activity/form$', activity_form, name='activity_form'),

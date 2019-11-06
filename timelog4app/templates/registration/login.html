@@ -1,8 +1,9 @@
 {% extends 'shared/base.html' %} {% block content %}
 <h2>Login</h2>
-<form method="post">
+<form action="{% url 'timelog4app:login' %}" method="post">
   {% csrf_token %}
-  {{ form.as_p }}
+  <input type="text" name="username" placeholder="username" /><br/>
+  <input type="password" name="password" placeholder="password" /><br/>
   <button type="submit">Login</button>
 </form>
 {% endblock %}

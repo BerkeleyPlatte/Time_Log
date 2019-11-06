@@ -1,3 +1,17 @@
 {% extends 'shared/base.html' %} {% block content %}
-<h1>Welcome to Time Log</h1>
+<h1>Welcome to Time Log!</h1>
+<form action="{% url 'timelog4app:login' %}">
+    {% csrf_token %}
+  <h3>
+    Old Friends:
+    <button type="submit">Login</button>
+  </h3>
+</form>
+<form action="{% url 'timelog4app:register' %}">
+    {% csrf_token %}
+  <h3>
+    New Friends:
+    <button type="submit">Register</button>
+  </h3>
+</form>
 {% endblock %}
