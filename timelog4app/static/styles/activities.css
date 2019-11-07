@@ -1,3 +1,6 @@
+body {
+  background-color: aliceblue
+}
 .activities {
   list-style: none;
   display: flex;
@@ -9,14 +12,29 @@
   flex-basis: 20%;
   padding: 0 2em 0.5em 2em;
   border: 1px solid gray;
+  border-radius: 25px;
   margin: 1em;
-  padding: 1.5em;
+  /* padding: 1.5em; */
+  background-color: lightskyblue;
+  box-shadow: 10px 10px 15px gray;
 }
 
 .activity__name {
   font-size: 1.1em;
+  display: flex;
+  justify-content: center;
 }
 
 .activity__description {
   font-size: 0.75em;
+}
+
+.start_button_container {
+  display: flex;
+  justify-content: center;
+  height: 25px;
+}
+
+.start_button {
+  border-radius: 25px;
 }

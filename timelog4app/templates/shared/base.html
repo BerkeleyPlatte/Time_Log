@@ -11,19 +11,24 @@
   </head>
 
   <body>
-    <nav id="site-nav">
-      <ul class="navList">
-        <li class="navList__route">
-          <a href="{% url 'timelog4app:activities' %}">Activities</a>
-        </li>
-        <li class="navList__route">
-          <a href="{% url 'timelog4app:time_allocations' %}">Log</a>
-        </li>
-        <li class="navList__route">
-          <a href="{% url 'timelog4app:logout' %}">Logout</a>
-        </li>
-      </ul>
-    </nav>
+    <div class="white">
+      <nav id="site-nav">
+        <ul class="navList">
+          <li class="navList__route">
+            <a href="{% url 'timelog4app:activities' %}">Activities</a>
+          </li>
+          <li class="navList__route">
+            <a href="{% url 'timelog4app:time_allocations' %}">Log</a>
+          </li>
+          <div class="logout">
+
+            <li class="navList__route">
+              <a href="{% url 'timelog4app:logout' %}">Logout</a>
+            </li>
+          </div>
+        </ul>
+      </nav>
+    </div>
 
     <main content="main-content">
       {% block content %} {% endblock %}

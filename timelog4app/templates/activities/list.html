@@ -18,9 +18,9 @@
     >
       {{ activity.name }}
     </a>
-    <form action="{% url 'timelog4app:time_allocations'   %}" method="post">
+    <form class="start_button_container" action="{% url 'timelog4app:time_allocations'   %}" method="post">
       {% csrf_token %}
-      <button>Start</button>
+      <button class="start_button" >Start</button>
       <input name="activity_id" type="hidden" value="{{ activity.id }}" />
     </form>
 
