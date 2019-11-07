@@ -1,4 +1,8 @@
-{% extends 'shared/base.html' %} {% block content %}
+{% extends 'shared/base.html' %} {% block content %} 
+{% load staticfiles %} 
+{%block css %}
+<link rel="stylesheet" href="{% static 'styles/allocations.css' %}" />
+{% endblock %}
 
 <table style="width:100%">
   <tr>

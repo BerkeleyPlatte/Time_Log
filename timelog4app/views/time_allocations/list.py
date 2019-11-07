@@ -102,8 +102,7 @@ def time_allocation_list(request):
                 UPDATE timelog4app_time_allocation
                 set stop_time = ?
                 where id = ?
-                and date = ?
-                """, (current_time, request.POST['activity_id_edited'], todays_date))
+                """, (current_time, request.POST['activity_id_edited'],))
 
         elif ("actual_method" in request.POST and request.POST["actual_method"] == "DELETE"):
 

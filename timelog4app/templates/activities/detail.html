@@ -1,7 +1,9 @@
 {% extends 'shared/base.html' %} {% block content %}
 
 <h1>{{ activity.name }}</h1>
-{% if totals.days is 0 and totals.hours is 0 %}
+{% if totals.days is 0 and totals.hours is 0 and totals.minutes is 0 %}
+<h3>You haven't performed this activity yet!</h3>
+{% elif totals.days is 0 and totals.hours is 0 %}
 <h3>
   You've performed this activity for {{ totals.minutes }} minute(s)
 </h3>
