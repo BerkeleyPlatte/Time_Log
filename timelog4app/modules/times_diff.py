@@ -4,7 +4,7 @@ def times_diff(start, stop):
     stop_hours = int(stop[:2])
     stop_mins = int(stop[3:5])
     if stop_hours < start_hours:
-        mins_before_midnight = (1440 - (start_hours * 60)) + start_mins
+        mins_before_midnight = (1440 - (start_hours * 60)) - start_mins
         mins_after_midnight = (stop_hours * 60) + stop_mins
         diff_in_mins = mins_before_midnight + mins_after_midnight
     else:
