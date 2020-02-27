@@ -35,7 +35,7 @@ def get_activity_allocations(activity_id):
         db_cursor.execute("""
         select ta.start_time, ta.stop_time
         from timelog4app_time_allocation ta, timelog4app_activity a
-        where ta.activity_id = a.id and a.id = ?
+        where ta.activity_id = a.id and ta.stop_time is not null and a.id = ?
         """, (activity_id,))
 
         activity_specific_allocations = []
