@@ -35,26 +35,19 @@ def get_activity_allocations(activity_id):
         db_cursor.execute("""
         select ta.start_time, ta.stop_time
         from timelog4app_time_allocation ta, timelog4app_activity a
-        where ta.activity_id = a.id and a.id = ?
+        where ta.activity_id = a.id and ta.stop_time is not null and a.id = ?
         """, (activity_id,))
 
         activity_specific_allocations = []
-        dataset = db_cursor.fetchall()
-        totals_list = []
-
-        for row in dataset:
+        rows = db_cursor.fetchall()
+        
+        for each in rows:
             time_allocation = Time_Allocation()
             time_allocation.diff_in_mins = times_diff(
-                row['start_time'], row['stop_time'])
-
+                each['start_time'], each['stop_time'])
             activity_specific_allocations.append(time_allocation)
-
-        for each in activity_specific_allocations:
-            totals_list.append(each.diff_in_mins)
-
-        totals_dict = to_days(totals_list)
-
-        return totals_dict
+        
+        return to_days([each.diff_in_mins for each in activity_specific_allocations])
 
 
 @login_required
